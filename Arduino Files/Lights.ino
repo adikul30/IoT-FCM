@@ -7,7 +7,7 @@
 #define WIFI_SSID "Batman"
 #define WIFI_PASSWORD "kulkarni"
 
-String status = "0";
+String status = "off";
 void setup() {
   Serial.begin(9600);
   pinMode(D2,OUTPUT);
@@ -29,7 +29,7 @@ int n = 0;
 
 void loop() {
 
-  status = Firebase.getString("Hall");
+  status = Firebase.getString("/automation/light/value");
   Serial.println(status);
   if (Firebase.failed()) {
       Serial.print("setting /message failed:");
@@ -37,7 +37,7 @@ void loop() {
       return;
   }
   
-  if(status.equals("1")){
+  if(status.equals("on")){
         digitalWrite(D2,HIGH);
   }
   else {
