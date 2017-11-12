@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference ref;
     private FirebaseDatabase database;
     private ImageView light_bulb;
-    private String status = "0";
+    private String status = "off";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +30,16 @@ public class MainActivity extends AppCompatActivity {
         light_bulb = (ImageView)findViewById(R.id.light_bulb);
 
         database = FirebaseDatabase.getInstance();
-        ref = database.getReference("Hall");
+        ref = database.getReference("automation/light/value");
 
         light_bulb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(status.equals("1")){
-                    ref.setValue("0");
+                if(status.equals("on")){
+                    ref.setValue("off");
                 }
                 else {
-                    ref.setValue("1");
+                    ref.setValue("on");
                 }
             }
         });
@@ -47,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(String.class).equals("1")){
+                if(dataSnapshot.getValue(String.class).equals("on")){
                     light_bulb.setImageResource(R.drawable.light_on);
-                    status = "1";
+                    status = "on";
                 }
                 else {
                     light_bulb.setImageResource(R.drawable.light_off);
-                    status = "0";
+                    status = "off";
                 }
             }
 
